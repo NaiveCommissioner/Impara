@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Impara — learn to speak Italian</title>
+  <meta name="description" content="A spaced-repetition Italian trainer with vocabulary, conjugation and grammar drills.">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🇮🇹</text></svg>">
+
+  <!-- Installable app -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15161a" media="(prefers-color-scheme: dark)">
+
+  <!-- iOS has never supported the manifest properly; it needs its own tags -->
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Impara">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#/home">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">Impara</span>
+    </a>
+    <nav class="nav">
+      <a href="#/home">Home</a>
+      <a href="#/drill">Practice</a>
+      <a href="#/browse">Reference</a>
+      <a href="#/progress">Progress</a>
+      <a href="#/settings">Settings</a>
+    </nav>
+  </header>
+
+  <main id="app"></main>
+
+  <noscript>
+    <p style="padding:2rem">This trainer needs JavaScript enabled.</p>
+  </noscript>
+
+  <script type="module" src="js/app.js"></script>
+  <script>
+    // Service workers need a secure context: https, or localhost. Over plain
+    // http on a LAN address the browser blocks registration, so the app still
+    // runs — it just won't work offline or install.
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch((err) => {
+          console.warn('Offline support unavailable:', err.message);
+        });
+      });
+    }
+  </script>
+</body>
+</html>

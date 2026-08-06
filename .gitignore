@@ -1,0 +1,10 @@
+# Local tooling config — contains absolute paths from this machine
+.claude/
+
+# macOS
+.DS_Store
+
+# Editor noise
+*.swp
+.idea/
+.vscode/
