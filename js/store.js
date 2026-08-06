@@ -20,12 +20,14 @@ const DEFAULTS = {
     lessons: null,      // null = all lessons active
     dialogues: null,    // null = all conversations active
     listening: true,    // audio-only cards; needs an Italian voice to be usable
+    lessonsPerDay: 1,   // long-form lessons surfaced per day; 0 turns them off
     audio: true,
     strictAccents: false,
     dayRollover: 4,     // a "day" starts at 4am, so a late session still counts as today
   },
   cards: {},
   history: {},
+  lessons: {},        // { lessonId: timestamp read }
   createdAt: null,
 };
 
@@ -51,6 +53,7 @@ export function load() {
   state.settings = { ...clone(DEFAULTS.settings), ...(state.settings || {}) };
   state.cards = state.cards || {};
   state.history = state.history || {};
+  state.lessons = state.lessons || {};
   return state;
 }
 
@@ -140,6 +143,29 @@ export function history() {
   return load().history;
 }
 
+// ---- long-form lessons ---------------------------------------------------
+
+export function lessonsRead() {
+  return load().lessons;
+}
+
+export function markLessonRead(id) {
+  const lessons = load().lessons;
+  if (!lessons[id]) lessons[id] = Date.now();
+  save();
+}
+
+export function unmarkLessonRead(id) {
+  delete load().lessons[id];
+  save();
+}
+
+/** How many lessons were read on today's learning day. */
+export function lessonsReadToday() {
+  const today = dayKey();
+  return Object.values(load().lessons).filter((ts) => dayKey(ts) === today).length;
+}
+
 /** Consecutive days with at least one answer, counting back from today. */
 export function streak() {
   const h = load().history;
@@ -179,6 +205,7 @@ export function importJSON(text) {
   state.settings = { ...clone(DEFAULTS.settings), ...(state.settings || {}) };
   state.cards = state.cards || {};
   state.history = state.history || {};
+  state.lessons = state.lessons || {};
   saveNow();
 }
 
@@ -186,6 +213,7 @@ export function resetProgress() {
   const keep = clone(load().settings);
   state = clone(DEFAULTS);
   state.settings = keep;
+  state.lessons = {};
   state.createdAt = Date.now();
   saveNow();
 }

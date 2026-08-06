@@ -1,8 +1,9 @@
 // Home: what's waiting today, and one button that starts it.
 
 import { overview } from '../session.js';
+import { lessonStatus } from '../lessons.js';
 import { streak, settings, updateSettings, PACE_PRESETS } from '../store.js';
-import { mount, $, delegate } from './dom.js';
+import { mount, $, delegate, escapeHtml } from './dom.js';
 
 /** "in 3 hours", "tomorrow", "in 4 days" — for the next-due note. */
 function relative(ts) {
@@ -12,6 +13,34 @@ function relative(ts) {
   const days = Math.round(mins / (60 * 24));
   if (days <= 1) return 'tomorrow';
   return `in ${days} days`;
+}
+
+/**
+ * Today's reading, surfaced above the fold. Silent when lessons are switched
+ * off, already done for today, or finished entirely — there's no value in a
+ * panel that only ever says "nothing".
+ */
+function lessonPanel() {
+  const s = lessonStatus();
+  if (!s.enabled || s.finished) return '';
+
+  if (s.dueToday.length) {
+    const lesson = s.dueToday[0];
+    return `
+      <a class="panel lesson-today" href="#/lessons?id=${lesson.id}">
+        <span class="tag tag-learn">Today’s lesson</span>
+        <h3>${escapeHtml(lesson.title)}</h3>
+        <p class="panel-sub">${escapeHtml(lesson.subtitle)}</p>
+        <p class="panel-foot">${lesson.minutes} min read${
+          s.dueToday.length > 1 ? ` · ${s.dueToday.length} ready today` : ''} →</p>
+      </a>`;
+  }
+
+  return `
+    <div class="panel lesson-done">
+      <p class="panel-sub">Today’s lesson is done — ${s.totalRead} of ${s.total} read.
+        <a href="#/lessons">Read ahead</a> if you like.</p>
+    </div>`;
 }
 
 function greeting() {
@@ -59,6 +88,8 @@ export function render() {
               ? ` — your next card is due ${relative(o.nextDue)}` : ''}.</p>`
           : ''}
       </div>
+
+      ${lessonPanel()}
 
       <div class="grid">
         <div class="panel">

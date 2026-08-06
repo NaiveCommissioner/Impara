@@ -4,7 +4,7 @@
 // be clever — everything is precached on install. Bump CACHE_VERSION whenever
 // you change any file, or the old copy will keep being served.
 
-const CACHE_VERSION = 'impara-v1';
+const CACHE_VERSION = 'impara-v2';
 
 const PRECACHE = [
   './',
@@ -20,6 +20,7 @@ const PRECACHE = [
   './js/conjugator.js',
   './js/example.js',
   './js/gloss.js',
+  './js/lessons.js',
   './js/session.js',
   './js/srs.js',
   './js/store.js',
@@ -28,12 +29,14 @@ const PRECACHE = [
   './js/ui/dom.js',
   './js/ui/drill.js',
   './js/ui/home.js',
+  './js/ui/lessons.js',
   './js/ui/progress.js',
   './js/ui/settings.js',
   './js/ui/study.js',
   './data/dialogues.js',
   './data/examples.js',
   './data/grammar.js',
+  './data/lessons.js',
   './data/lexicon.js',
   './data/verbs.js',
   './data/vocab.js',
