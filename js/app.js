@@ -4,6 +4,7 @@ import * as home from './ui/home.js';
 import * as study from './ui/study.js';
 import * as drill from './ui/drill.js';
 import * as browse from './ui/browse.js';
+import * as lessons from './ui/lessons.js';
 import * as progress from './ui/progress.js';
 import * as settingsScreen from './ui/settings.js';
 import { saveNow } from './store.js';
@@ -15,6 +16,7 @@ const ROUTES = {
     includeNew: params.get('new') !== '0',
     ahead: params.get('ahead') === '1',
   }),
+  '/lessons': (params) => lessons.render(params),
   '/drill': () => drill.render(),
   '/browse': () => browse.render(),
   '/progress': () => progress.render(),

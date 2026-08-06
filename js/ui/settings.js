@@ -54,6 +54,12 @@ export function render() {
           <label>Maximum reviews a day
             <input type="number" id="maxReviews" min="10" max="500" step="10" value="${s.maxReviews}">
           </label>
+          <label>Lessons a day
+            <select id="lessonsPerDay">
+              ${[0, 1, 2, 3].map((n) => `<option value="${n}" ${n === s.lessonsPerDay ? 'selected' : ''}>${
+                n === 0 ? 'off' : `${n} lesson${n === 1 ? '' : 's'}`}</option>`).join('')}
+            </select>
+          </label>
           <label>New day starts at
             <select id="rollover">
               ${[0, 2, 3, 4, 5, 6].map((h) => `<option value="${h}" ${h === s.dayRollover ? 'selected' : ''}>${String(h).padStart(2, '0')}:00</option>`).join('')}
@@ -203,6 +209,9 @@ export function render() {
   $('#maxReviews').addEventListener('change', numeric);
   $('#rollover').addEventListener('change', (e) => {
     store.updateSettings({ dayRollover: Number(e.target.value) });
+  });
+  $('#lessonsPerDay').addEventListener('change', (e) => {
+    store.updateSettings({ lessonsPerDay: Number(e.target.value) });
   });
 
   delegate(root, '[data-act="export"]', 'click', () => {

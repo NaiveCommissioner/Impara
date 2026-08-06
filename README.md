@@ -82,7 +82,8 @@ lapses shortening the interval and lowering the ease.
 |---|---|
 | **590 words** | 14 units, from greetings through food, directions, work and small talk. Each word becomes three cards: recognise it, produce it, hear it. |
 | **50 verbs × 5 tenses** | presente, passato prossimo, imperfetto, futuro semplice, condizionale — one card per person, so 6 per verb-tense. Verbs are tiered (11 essential, 22 common, 17 broadening) so the load-bearing ones come first. |
-| **16 grammar lessons** | 101 exercises: subject pronouns, articles, plurals, agreement, articulated prepositions, `c'è`/`ci sono`, possessives, `piacere`, auxiliary choice, reflexives, direct and indirect object pronouns, and more. |
+| **17 lessons** | Long-form explanations, one a day: gender, articles, pronunciation, plurals, agreement, dropping the subject, essere/avere, tu vs Lei, prepositions, the past tenses, reflexives, object pronouns, piacere, ci/ne, the imperative, the progressive. ~71 minutes of reading. |
+| **16 grammar drills** | 101 exercises: subject pronouns, articles, plurals, agreement, articulated prepositions, `c'è`/`ci sono`, possessives, `piacere`, auxiliary choice, reflexives, direct and indirect object pronouns, and more. |
 | **8 conversations** | 64 lines — the café, meeting someone, directions, the restaurant, the hotel, the shop, the station, making plans. Each line is rebuilt from word tiles, in order, with the previous line as context. |
 | **331 listening cards** | Every word and every conversation line, heard with no text on screen. |
 
@@ -127,6 +128,22 @@ may declare prerequisites in `requires`:
 met once that card has been introduced — in an earlier session or earlier in the
 same batch. Requirements pointing at cards your settings have switched off are
 ignored, so turning a lesson off can't deadlock the deck.
+
+### Lessons
+
+The cards drill rules; the **Lessons** section explains them. Seventeen
+long-form pieces in `data/lessons.js`, written for an English speaker and
+ordered so each leans only on what came before — starting with the fact that
+every Italian noun has a gender, which English gives you no preparation for.
+
+Each has sections of prose, worked examples with audio and word-by-word
+glosses, a **Watch out** callout for the mistake English speakers actually
+make, and a short summary.
+
+**One a day by default**, configurable in Settings from 0 (off) to 3. The
+pacing is a recommendation, not a lock: today's lesson is surfaced on the home
+screen, but the full list is always open and you can read ahead whenever you
+want. Reading isn't something that benefits from being forbidden.
 
 ### Taught before tested, then always active recall
 
@@ -249,7 +266,9 @@ index.html          shell + nav
 css/app.css         all styling (light and dark)
 data/vocab.js       10 units of vocabulary
 data/verbs.js       verb inventory, tenses, persons
-data/grammar.js     lessons and exercises
+data/grammar.js     grammar notes and drill exercises
+data/lessons.js     long-form lessons
+js/lessons.js       lesson pacing (one a day by default)
 data/dialogues.js   scripted conversations
 data/examples.js    complement frames for generated example sentences
 data/lexicon.js     function words + English pasts, for glossing
