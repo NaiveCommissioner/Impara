@@ -11,6 +11,13 @@ import { activeCards, pickNew, getCard } from './cards.js';
 
 const REQUEUE_HORIZON = 20 * 60 * 1000;
 
+// How many new cards may be "in flight" at once — introduced by a teaching pass
+// but not yet answered as a real question. Without a cap, a first session is a
+// wall of "Got it" clicks: every new card is taught, and only when the last one
+// is done do the 10-minute steps start bringing them back as tests. Holding the
+// rest in reserve turns that into teach → test → teach → test.
+const MAX_IN_FLIGHT = 3;
+
 // "Study ahead" pulls forward reviews falling due inside this window, and
 // grants one extra day's worth of new cards. Anything further out is left
 // alone — reviewing a card weeks early just wastes the interval.
@@ -108,20 +115,30 @@ export class Session {
     const fresh = opts.includeNew === false ? [] : pickNew(newAllowance, active, states);
 
     this.newIds = new Set(fresh.map((c) => c.id));
-    this.queue = this._mix(shuffle(due), fresh);
+    // Only the first few new cards go into the queue; the rest wait their turn
+    // and are released one at a time as the ones ahead of them are tested. The
+    // day's allowance is unchanged — reserved cards are still this session's.
+    this.reserve = fresh.slice(MAX_IN_FLIGHT).map((c) => c.id);
+    this.inFlight = new Set();  // taught this sitting, first test still to come
+    this.queue = this._mix(shuffle(due), fresh.slice(0, MAX_IN_FLIGHT), fresh.length);
     this.learning = [];        // [{id, due}]
     this.startedAt = now;
     this.answered = 0;
     this.correct = 0;
-    this.initialCount = this.queue.length;
+    this.initialCount = this.queue.length + this.reserve.length;
   }
 
-  /** Spread the new cards evenly through the shuffled reviews. */
-  _mix(reviews, fresh) {
+  /**
+   * Spread the new cards evenly through the shuffled reviews. `spreadOver` is
+   * how many new cards the spacing is meant for, which is more than are being
+   * placed when the rest are still in reserve: the ones held back keep their
+   * slots warm rather than leaving the first few stranded far apart.
+   */
+  _mix(reviews, fresh, spreadOver = fresh.length) {
     if (!fresh.length) return reviews.map((c) => c.id);
     if (!reviews.length) return fresh.map((c) => c.id);
     const out = [];
-    const gap = reviews.length / fresh.length;
+    const gap = reviews.length / spreadOver;
     let fi = 0;
     reviews.forEach((c, i) => {
       while (fi < fresh.length && fi * gap <= i) {
@@ -134,8 +151,25 @@ export class Session {
     return out;
   }
 
+  /**
+   * Let the next reserved new card into the queue, spaced through whatever
+   * reviews are still waiting. With nothing else queued it goes straight to the
+   * front, which is exactly the teach → test alternation we're after.
+   */
+  _release() {
+    if (!this.reserve.length) return;
+    const id = this.reserve.shift();
+    const spaced = Math.floor(this.queue.length / (this.reserve.length + 1));
+    // …but never ahead of a new card still waiting to be taught: pickNew handed
+    // these over in an order that keeps produce behind recognise, and listening
+    // behind produce, and that order has to survive the wait in reserve.
+    let after = 0;
+    this.queue.forEach((qid, i) => { if (this.newIds.has(qid)) after = i + 1; });
+    this.queue.splice(Math.max(after, spaced), 0, id);
+  }
+
   remaining() {
-    return this.queue.length + this.learning.length;
+    return this.queue.length + this.learning.length + this.reserve.length;
   }
 
   /** @returns {{card, state, isNew, previews}|null} */
@@ -173,6 +207,15 @@ export class Session {
     const state = existing || newCard(id);
     const next = applyRating(state, rating, now);
 
+    // A card with no stored state is being taught, not tested — that's what the
+    // study screen shows for it — so this answer puts it in flight. Any later
+    // answer is a real question: get it right and it frees its slot.
+    if (isNew) this.inFlight.add(id);
+    else if (this.inFlight.has(id) && rating > 0) {
+      this.inFlight.delete(id);
+      this._release();
+    }
+
     store.putCardState(id, next);
     store.recordAnswer({ isNew, rating });
 
@@ -194,6 +237,11 @@ export class Session {
     const id = this.current;
     this.queue = this.queue.filter((q) => q !== id);
     this.learning = this.learning.filter((l) => l.id !== id);
+    // Burying a new card gives up its slot, or the reserve would never move.
+    if (this.newIds.has(id)) {
+      this.inFlight.delete(id);
+      this._release();
+    }
     this.current = null;
   }
 
