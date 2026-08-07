@@ -174,8 +174,11 @@ input[type="number"], select, .search {
 .pill-new { background: var(--new-soft); color: var(--new); }
 .pill-due { background: var(--accent-soft); color: var(--accent); }
 .pill-streak { background: var(--warn-soft); color: var(--warn); }
+.pill-held { background: var(--warn-soft); color: var(--warn); }
 .hero-actions { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; }
 .hero-note { margin: .9rem 0 0; font-size: .85rem; color: var(--muted); max-width: 46ch; }
+/* The one note that has to be read, not skimmed past: it explains a zero. */
+.hero-note-held { border-left: 3px solid var(--warn); padding-left: .7rem; color: var(--text); }
 
 .pace-row { display: flex; gap: .6rem; flex-wrap: wrap; }
 .pace {

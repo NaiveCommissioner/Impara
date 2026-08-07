@@ -23,6 +23,42 @@ const MAX_IN_FLIGHT = 3;
 // alone — reviewing a card weeks early just wastes the interval.
 const AHEAD_HORIZON = 3 * 24 * 60 * 60 * 1000;
 
+// How far past "today is full" the review pile may run before new cards stop
+// entirely, as a fraction of maxReviews. See newBudget() below.
+const BACKLOG_ZONE = 0.25;
+
+/**
+ * The day's new-card allowance, thinned out while a review backlog is standing.
+ *
+ * Miss a few days and the pile outgrows what a day can hold; handing out new
+ * cards on top of it is how a week away becomes a month of catching up, since
+ * every new card is another review tomorrow on a day that is already full.
+ *
+ * The measure is the *overrun*: how many due cards there are beyond the reviews
+ * today can still serve. Full allowance while the pile fits, tapering linearly
+ * to nothing a quarter of a day's reviews past that.
+ *
+ * The overrun, rather than the raw due count, is what keeps ordinary days out
+ * of it. Simulated through this scheduler over a full 260-day deck at 10 new a
+ * day and 90% Good, an uninterrupted day peaks at 93 reviews due against a cap
+ * of 120 — 78% of it — and a learner answering 80% Good sits at the cap
+ * permanently. Any threshold set as a fraction of maxReviews therefore fires on
+ * days when nothing is wrong. "More due than the day can reach" cannot: it is
+ * zero on every uninterrupted day by construction, and 160 on the morning after
+ * a week away.
+ *
+ * @returns {{allowance: number, overrun: number, throttled: boolean}}
+ */
+function newBudget(settings, base, dueNow, reviewsLeft) {
+  if (!settings.backlogGuard || base <= 0) {
+    return { allowance: base, overrun: 0, throttled: false };
+  }
+  const overrun = Math.max(0, dueNow - reviewsLeft);
+  const zone = Math.max(1, settings.maxReviews * BACKLOG_ZONE);
+  const allowance = Math.round(base * Math.max(0, 1 - overrun / zone));
+  return { allowance, overrun, throttled: allowance < base };
+}
+
 function shuffle(a) {
   const out = a.slice();
   for (let i = out.length - 1; i > 0; i -= 1) {
@@ -63,8 +99,11 @@ export function overview(now = Date.now()) {
     }
   }
 
-  const newAllowance = Math.max(0, settings.newPerDay - t.new);
   const reviewAllowance = Math.max(0, settings.maxReviews - t.reviews);
+  const backlog = dueReviews + dueLearning;
+  const baseNew = Math.max(0, settings.newPerDay - t.new);
+  const budget = newBudget(settings, baseNew, backlog, reviewAllowance);
+  const newToday = Math.min(budget.allowance, unseen);
 
   return {
     total: active.length,
@@ -73,8 +112,15 @@ export function overview(now = Date.now()) {
     known,
     dueReviews,
     dueLearning,
-    newToday: Math.min(newAllowance, unseen),
-    reviewsToday: Math.min(reviewAllowance, dueReviews + dueLearning),
+    newToday,
+    // Why the home screen is offering fewer new cards than the pace promises —
+    // a silent zero reads as a broken app. `backlog` is the pile to work down:
+    // clear it and the allowance comes back on its own, no setting to change.
+    newHeldBack: budget.throttled && unseen > 0,
+    newPaused: budget.throttled && unseen > 0 && newToday === 0,
+    newIfCaughtUp: Math.min(baseNew, unseen),
+    backlog,
+    reviewsToday: Math.min(reviewAllowance, backlog),
     doneToday: t.new + t.reviews,
     newDoneToday: t.new,
     nextDue,
@@ -99,7 +145,7 @@ export class Session {
     const t = store.today();
     // Studying ahead grants a fresh batch on top of whatever today already
     // used, and reaches forward for reviews that aren't due yet.
-    const newAllowance = opts.ahead
+    const baseNew = opts.ahead
       ? settings.newPerDay
       : Math.max(0, settings.newPerDay - t.new);
     const reviewAllowance = opts.ahead
@@ -107,10 +153,19 @@ export class Session {
       : Math.max(0, settings.maxReviews - t.reviews);
     const cutoff = opts.ahead ? now + AHEAD_HORIZON : now;
 
-    const due = active
+    const pending = active
       .filter((c) => states[c.id] && states[c.id].due <= cutoff)
-      .sort((a, b) => states[a.id].due - states[b.id].due)
-      .slice(0, reviewAllowance);
+      .sort((a, b) => states[a.id].due - states[b.id].due);
+    const due = pending.slice(0, reviewAllowance);
+
+    // Same throttle as overview(), on the same numbers, or the home screen
+    // would promise a batch the session then refuses to deal. The backlog is
+    // what is due *now* even when studying ahead: cards pulled forward from
+    // next week are not a sign of falling behind.
+    const backlog = cutoff === now
+      ? pending.length
+      : pending.filter((c) => states[c.id].due <= now).length;
+    const newAllowance = newBudget(settings, baseNew, backlog, reviewAllowance).allowance;
 
     const fresh = opts.includeNew === false ? [] : pickNew(newAllowance, active, states);
 
