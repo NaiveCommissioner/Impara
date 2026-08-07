@@ -66,6 +66,11 @@ export function render() {
             </select>
           </label>
         </div>
+        <label class="check">
+          <input type="checkbox" data-act="backlog-guard" ${s.backlogGuard ? 'checked' : ''}>
+          <span><b>Ease off new cards when reviews pile up</b><em>After days away, hold back new
+            cards until the reviews you owe fit inside a day again. They come back by themselves.</em></span>
+        </label>
         <p class="muted">Falling behind? Drop the new-card number — reviews shrink on their own within a week.</p>
       </div>
 
@@ -186,6 +191,8 @@ export function render() {
       store.updateSettings({ strictAccents: t.checked });
     } else if (act === 'listening') {
       store.updateSettings({ listening: t.checked });
+    } else if (act === 'backlog-guard') {
+      store.updateSettings({ backlogGuard: t.checked });
     }
   });
 

@@ -43,6 +43,22 @@ function lessonPanel() {
     </div>`;
 }
 
+/**
+ * Why today is offering fewer new cards than the pace promises. Nothing at all
+ * on an ordinary day — but a bare "0 new" after a week away looks like a bug,
+ * and a learner who thinks the app is broken doesn't come back to find out.
+ */
+function backlogNote(o) {
+  if (!o.newHeldBack) return '';
+  const reviews = `${o.backlog} review${o.backlog === 1 ? '' : 's'}`;
+  return o.newPaused
+    ? `<p class="hero-note hero-note-held">New cards are paused — ${reviews} to clear first.
+       Work the pile down and they start again on their own; there's nothing to change.</p>`
+    : `<p class="hero-note hero-note-held">Going easy on new cards while you catch up:
+       ${o.newToday} today instead of ${o.newIfCaughtUp}, with ${reviews} waiting.
+       Full pace comes back on its own.</p>`;
+}
+
 function greeting() {
   const h = new Date().getHours();
   if (h < 12) return 'Buongiorno';
@@ -67,7 +83,8 @@ export function render() {
             ? 'Today’s work is done. Bravo.'
             : 'Nothing due — study ahead if you like.'}</h2>
         <div class="hero-counts">
-          <span class="pill pill-new">${o.newToday} new</span>
+          <span class="pill ${o.newPaused ? 'pill-held' : 'pill-new'}">${o.newPaused
+            ? 'new cards paused' : `${o.newToday} new`}</span>
           <span class="pill pill-due">${o.reviewsToday} review</span>
           ${days ? `<span class="pill pill-streak">🔥 ${days} day streak</span>` : ''}
         </div>
@@ -78,6 +95,7 @@ export function render() {
           </button>
           <button class="ghost" data-act="reviews-only" ${o.reviewsToday ? '' : 'disabled'}>Reviews only</button>
         </div>
+        ${backlogNote(o)}
         ${!waiting && o.aheadAvailable
           ? `<p class="hero-note">Studying ahead pulls in another ${Math.min(s.newPerDay, o.unseen)} new
              card${Math.min(s.newPerDay, o.unseen) === 1 ? '' : 's'} and anything due in the next few days.

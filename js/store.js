@@ -21,6 +21,7 @@ const DEFAULTS = {
     dialogues: null,    // null = all conversations active
     listening: true,    // audio-only cards; needs an Italian voice to be usable
     lessonsPerDay: 1,   // long-form lessons surfaced per day; 0 turns them off
+    backlogGuard: true, // thin out new cards while a review backlog is standing
     audio: true,
     strictAccents: false,
     dayRollover: 4,     // a "day" starts at 4am, so a late session still counts as today
