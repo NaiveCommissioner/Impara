@@ -3,7 +3,8 @@
 import { Session, overview } from '../session.js';
 import { AGAIN, HARD, GOOD, EASY } from '../srs.js';
 import { checkAnswer, normalize } from '../text.js';
-import { settings } from '../store.js';
+import { settings, cardState } from '../store.js';
+import { siblingIds } from '../cards.js';
 import { speak, speakerButton, available as audioAvailable } from '../audio.js';
 import { paradigm } from '../conjugator.js';
 import { findVerb, TENSES, PERSONS } from '../../data/verbs.js';
@@ -187,17 +188,53 @@ function conjExample(card) {
     </div>`;
 }
 
+/**
+ * A word becomes three cards and a conversation line becomes two, so the same
+ * material is presented more than once — by design, spaced a few days apart.
+ * What it must not do is present the second and third encounters as though
+ * they were the first: identical layout, identical "Learn this", no hint that
+ * you've been here before. That reads as a bug even when the spacing is right.
+ *
+ * So a repeat says so, and says what is different about this pass.
+ */
+function teachFraming(card) {
+  const repeat = siblingIds(card).some((id) => cardState(id));
+  const line = card.mode === 'line';
+
+  if (!repeat) {
+    const promise = card.kind === 'listen'
+      ? `Next time you’ll hear ${line ? 'this line' : 'this word'} with no text.`
+      : {
+        recog: 'You’ll be asked what this means.',
+        prod: 'You’ll be asked to write it in Italian.',
+        conj: 'You’ll be asked to write this form.',
+        grammar: 'You’ll be asked to fill the gap.',
+        sentence: 'You’ll rebuild this line from word tiles.',
+      }[card.kind];
+    return { label: 'Learn this', cls: 'tag-learn', promise };
+  }
+
+  const promise = card.kind === 'listen'
+    ? `From now on you’ll only hear ${line ? 'this line' : 'this word'} — no text.`
+    : {
+      recog: 'You’ve met this word — this time you’ll give the meaning.',
+      prod: 'You’ve met this word — this time you’ll write it in Italian.',
+      sentence: 'You’ve seen this line — this time you’ll rebuild it from tiles.',
+    }[card.kind];
+  return { label: 'Seen before', cls: 'tag-again', promise };
+}
+
 function drawTeach() {
   const { card } = current;
   const lesson = card.kind === 'grammar' ? LESSONS.find((l) => l.id === card.group) : null;
+  const framing = teachFraming(card);
 
   let body;
   if (card.kind === 'listen') {
     body = `
       <div class="teach-answer${card.mode === 'line' ? ' line' : ''}">${escapeHtml(card.answer)} ${speakerButton(card.speak)}</div>
       <p class="teach-english">${escapeHtml(card.en || '')}</p>
-      ${card.mode === 'line' ? interlinear(card.answer) : ''}
-      <p class="prompt-sub">Listen to it — next time you'll hear this with no text.</p>`;
+      ${card.mode === 'line' ? interlinear(card.answer) : ''}`;
   } else if (card.kind === 'recog' || card.kind === 'prod') {
     body = `
       <div class="teach-answer">${escapeHtml(card.it)} ${speakerButton(card.speak)}</div>
@@ -235,7 +272,7 @@ function drawTeach() {
   $('#card-slot').innerHTML = `
     <article class="card teaching">
       <div class="card-tags">
-        <span class="tag tag-learn">Learn this</span>
+        <span class="tag ${framing.cls}">${framing.label}</span>
         <span class="tag">${TEACH_LABEL[card.kind] || KIND_LABEL[card.kind]}</span>
         ${card.unitTitle ? `<span class="tag subtle">${escapeHtml(card.unitTitle)}</span>` : ''}
         ${card.lessonTitle ? `<span class="tag subtle">${escapeHtml(card.lessonTitle)}</span>` : ''}
@@ -244,7 +281,7 @@ function drawTeach() {
       ${body}
       <div class="card-actions">
         <button class="primary" data-act="learned">Got it <kbd>↵</kbd></button>
-        <p class="grade-hint">You'll be asked to type this a few minutes from now.</p>
+        <p class="grade-hint">${escapeHtml(framing.promise || '')}</p>
       </div>
     </article>`;
 }

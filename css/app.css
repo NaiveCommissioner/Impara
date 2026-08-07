@@ -415,6 +415,8 @@ input[type="number"], select, .search {
 
 /* Teaching card: the answer is the point, so it leads. */
 .tag-learn { background: var(--warn-soft); color: var(--warn); }
+/* A repeat encounter — deliberately quieter than a first one. */
+.tag-again { background: var(--new-soft); color: var(--new); }
 .teach-answer {
   font-family: var(--serif);
   font-size: clamp(1.8rem, 5.5vw, 2.5rem);
