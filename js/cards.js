@@ -237,6 +237,27 @@ export function getCard(id) {
   return INDEX.get(id);
 }
 
+/**
+ * The other cards built from the same underlying item — a word's three
+ * directions (recognise / produce / listen), or a conversation line and its
+ * listening twin.
+ *
+ * Each of those is separately new, so each earns its own teaching pass. Knowing
+ * whether a sibling has already been introduced is what lets a teaching card
+ * tell a first encounter from a repeat.
+ */
+export function siblingIds(card) {
+  const wordCard = card.kind === 'recog' || card.kind === 'prod'
+    || (card.kind === 'listen' && card.mode === 'word');
+  if (wordCard) {
+    const base = card.id.replace(/:[rpl]$/, '');
+    return ['r', 'p', 'l'].map((s) => `${base}:${s}`).filter((id) => id !== card.id);
+  }
+  if (card.kind === 'sentence') return [`${card.id}:l`];
+  if (card.kind === 'listen' && card.mode === 'line') return [card.id.replace(/:l$/, '')];
+  return [];
+}
+
 /** Cards the current settings have switched on. */
 export function activeCards(settings) {
   const units = settings.units;
