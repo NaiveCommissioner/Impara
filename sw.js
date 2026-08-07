@@ -4,7 +4,7 @@
 // be clever — everything is precached on install. Bump CACHE_VERSION whenever
 // you change any file, or the old copy will keep being served.
 
-const CACHE_VERSION = 'impara-v5';
+const CACHE_VERSION = 'impara-v6';
 
 const PRECACHE = [
   './',

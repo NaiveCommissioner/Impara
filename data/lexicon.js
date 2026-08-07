@@ -148,6 +148,71 @@ export const FUNCTION_WORDS = {
   estate: 'summer', agosto: 'August', maggio: 'May', giardino: 'garden',
   tavolo: 'table', mani: 'hands', giornale: 'newspaper', dolci: 'sweets',
   spaghetti: 'spaghetti', problema: 'problem', tedesca: 'German',
+
+  // ---- words the long-form lessons lean on -------------------------------
+  // The lessons quote a wider range of Italian than the drills do, and every
+  // example carries a word-by-word gloss. Anything appearing there has to be
+  // indexed somewhere, and if it isn't a vocabulary item or a drilled verb
+  // form, it belongs here.
+
+  // nouns and adjectives
+  vita: 'life', nona: 'ninth', foto: 'photo', occhi: 'eyes',
+  braccio: 'arm', braccia: 'arms', calcio: 'football', festa: 'party',
+  classe: 'class', cuoco: 'cook', motivo: 'reason',
+  comode: 'comfortable', fresco: 'cool', forte: 'strong', veloce: 'fast',
+  intelligente: 'clever', ricco: 'rich', vero: 'true', usati: 'second-hand',
+  ragione: 'right (in avere ragione)', stesso: 'same', stessa: 'same',
+  begli: 'beautiful',
+
+  // comparatives, superlatives and the -issimo forms
+  migliore: 'better', migliori: 'better', peggiore: 'worse',
+  maggiore: 'greater / older', minore: 'smaller / younger',
+  meglio: 'better (adverb)', peggio: 'worse (adverb)',
+  buonissimo: 'really good', bellissimo: 'wonderful', lunghissimo: 'very long',
+  gentilissimo: 'very kind', facilissimo: 'very easy', lentamente: 'slowly',
+
+  // grammatical words the lessons introduce
+  cui: 'which / whom', benché: 'although', sebbene: 'although',
+  glielo: 'it to him / her', gliela: 'it to him / her', ce: 'us / there',
+  ognuno: 'each one', fino: 'until (fino a)', "trent'": 'thirty',
+
+  // imperatives with a pronoun welded on, and infinitives carrying one
+  dimmi: 'tell me', dammi: 'give me', fallo: 'do it', farlo: 'to do it',
+  aiutarmi: 'to help me', vederti: 'to see you', alzare: 'to get up',
+
+  // infinitives outside the conjugation drills
+  nuotare: 'to swim', guidare: 'to drive', fumare: 'to smoke',
+  riposare: 'to rest', giocare: 'to play', cenare: 'to have dinner',
+  imparare: 'to learn', ascoltare: 'to listen to', mandare: 'to send',
+  smettere: 'to stop', cambiare: 'to change', vivere: 'to live',
+  piovere: 'to rain', rispondere: 'to answer', accettare: 'to accept',
+  passare: 'to pass', pensare: 'to think', nascere: 'to be born',
+
+  // and the inflected forms of those that actually appear
+  giocavo: 'I used to play', mangiando: 'eating', manchi: 'you are missing',
+  imparo: 'I learn', ascolto: 'I listen to', mando: 'I send',
+  ceniamo: 'we have dinner', cambio: 'I change', pioverà: 'it will rain',
+  risponde: 'answers', fuma: 'smokes', accettano: 'they accept',
+  vive: 'lives', passerai: 'you will pass', pensavo: 'I thought',
+  pensato: 'thought', cambiato: 'changed', nato: 'born', smesso: 'stopped',
+
+  // congiuntivo — the lessons show these long before the drills conjugate them
+  sia: 'is (subjunctive)', siano: 'are (subjunctive)',
+  abbia: 'has (subjunctive)', abbiano: 'have (subjunctive)',
+  faccia: 'does (subjunctive)', venga: 'comes (subjunctive)',
+  parta: 'leaves (subjunctive)',
+  fossi: 'were (subjunctive)', fosse: 'were (subjunctive)',
+  avessi: 'had (subjunctive)', avesse: 'had (subjunctive)',
+  potessimo: 'we could (subjunctive)', arrivino: 'arrive (subjunctive)',
+  capiate: 'understand (subjunctive)', vincessi: 'won (subjunctive)',
+  venissero: 'came (subjunctive)',
+
+  // ---- and what the new drill sentences add on top of that ---------------
+  studentessa: 'student (f)', alberi: 'trees', palestra: 'gym',
+  lotteria: 'lottery', divertente: 'fun', né: 'nor',
+  facilmente: 'easily', velocemente: 'quickly',
+  comincio: 'I begin', canta: 'sings', conosciuto: 'met (past participle)',
+  viaggerei: 'I would travel',
 };
 
 // English simple past for each verb, used to gloss the passato prossimo.

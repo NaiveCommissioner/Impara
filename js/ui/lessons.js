@@ -33,11 +33,13 @@ function renderIndex() {
         <p class="panel-foot">${status.totalRead} of ${status.total} read${
           status.finished
             ? ' — that’s all of them.'
-            : status.enabled
-              ? status.remainingToday
-                ? ` · ${status.remainingToday} ready today`
-                : ' · next one tomorrow'
-              : ' · daily lessons are switched off'}</p>
+            : !status.enabled
+              ? ' · daily lessons are switched off'
+              : status.dueToday.length
+                ? ` · ${status.dueToday.length} ready today`
+                : status.waiting
+                  ? ' · the rest unlock as you reach the material — read ahead any time'
+                  : ' · next one tomorrow'}</p>
       </div>
 
       <div class="lesson-list">

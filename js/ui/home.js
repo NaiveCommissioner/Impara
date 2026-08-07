@@ -36,6 +36,18 @@ function lessonPanel() {
       </a>`;
   }
 
+  // Nothing due can mean two different things, and saying the wrong one is
+  // worse than saying nothing: either you've done today's reading, or the
+  // lessons still ahead are waiting on drills you haven't reached yet.
+  if (!s.readToday && s.waiting) {
+    return `
+      <div class="panel lesson-done">
+        <p class="panel-sub">No lesson today — the ones left explain material you haven’t
+          reached yet, and they’ll appear as you get there.
+          <a href="#/lessons">Read ahead</a> if you’d rather not wait.</p>
+      </div>`;
+  }
+
   return `
     <div class="panel lesson-done">
       <p class="panel-sub">Today’s lesson is done — ${s.totalRead} of ${s.total} read.

@@ -338,6 +338,338 @@ export const LESSONS = [
       { prompt: 'Bevi ___ (troppo) caffè!', answer: 'troppo' },
     ],
   },
+
+  // ---- appended later, to accompany the long-form lessons -----------------
+  // New sets only ever go on the end: the card ids are `g:<id>:<n>`, so
+  // renumbering or reordering anything above would scramble saved scheduling.
+
+  {
+    id: 'g15',
+    title: 'Comparisons and superlatives',
+    note: `<b>più</b> … / <b>meno</b> … + <b>di</b> = more / less … than:
+      <i>Roma è più grande di Firenze.</i><br>
+      Use <b>che</b> instead of <b>di</b> when the two things being compared are
+      joined to the same verb — two adjectives, two verbs, two nouns, or anything
+      after a preposition: <i>È più simpatico che intelligente. A Milano ci sono più
+      macchine che a Roma.</i><br><br>
+      Equal: <b>(così) … come</b> or <b>(tanto) … quanto</b> — <i>Marco è alto come me.</i><br><br>
+      <b>The most</b>: article + più + adjective, and "in/of" is <b>di</b>:
+      <i>la ragazza più simpatica della classe.</i><br>
+      <b>Very</b>: drop the final vowel and add <b>-issimo</b> — <i>buono → buonissimo</i>.<br><br>
+      Irregular: <b>migliore</b> (better), <b>peggiore</b> (worse) for things;
+      <b>meglio</b>, <b>peggio</b> for how something is done.`,
+    exercises: [
+      { prompt: 'Roma è ___ grande di Firenze.', answer: 'più', hint: 'bigger than' },
+      { prompt: 'Questo albergo è meno caro ___ quello.', answer: 'di' },
+      { prompt: 'A Milano ci sono più macchine ___ a Roma.', answer: 'che', hint: 'the second half starts with a preposition' },
+      { prompt: 'Anna è la studentessa ___ brava della classe.', answer: 'più', hint: 'the best in the class' },
+      { prompt: 'Questo vino è ___ (buono — "very good", one word).', answer: 'buonissimo' },
+      { prompt: 'Marco è alto ___ me.', answer: 'come', alts: ['quanto'], hint: 'as tall as' },
+      { prompt: 'Oggi il tempo è ___ di ieri. (better)', answer: 'migliore' },
+    ],
+  },
+  {
+    id: 'g16',
+    title: 'questo and quello',
+    note: `<b>questo</b> (this, near me) is an ordinary four-form adjective:
+      questo, questa, questi, queste.<br><br>
+      <b>quello</b> (that, further off) copies the definite article instead:
+      <table class="g-table">
+        <tr><th>il → </th><td>quel ragazzo</td><th>i → </th><td>quei ragazzi</td></tr>
+        <tr><th>lo → </th><td>quello studente</td><th>gli → </th><td>quegli studenti</td></tr>
+        <tr><th>l’ → </th><td>quell’amico</td><th>gli → </th><td>quegli amici</td></tr>
+        <tr><th>la → </th><td>quella casa</td><th>le → </th><td>quelle case</td></tr>
+      </table>
+      <b>bello</b> does exactly the same when it comes before its noun:
+      <i>bel ragazzo, begli occhi, bell’idea, bella giornata</i>.<br><br>
+      Standing alone as a pronoun, quello keeps the full form: <i>Prendo quello.</i>`,
+    exercises: [
+      { prompt: '___ (this) libro è mio.', answer: 'Questo', alts: ['questo'] },
+      { prompt: '___ (these) scarpe sono comode.', answer: 'Queste', alts: ['queste'] },
+      { prompt: 'Chi è ___ (that) ragazzo?', answer: 'quel', hint: 'it would be il ragazzo' },
+      { prompt: 'Guarda ___ (those) alberi!', answer: 'quegli', hint: 'it would be gli alberi' },
+      { prompt: 'Non conosco ___ (that) studente.', answer: 'quello', hint: 's + consonant, like lo studente' },
+      { prompt: 'Che ___ (bello) giornata!', answer: 'bella' },
+      { prompt: 'Marco ha ___ (bello) occhi.', answer: 'begli', hint: 'it would be gli occhi' },
+    ],
+  },
+  {
+    id: 'g17',
+    title: 'dovere, potere, volere',
+    note: `The three modals take a <b>bare infinitive</b> — no preposition between them:
+      <i>Devo andare. Posso entrare? Voglio dormire.</i>
+      <table class="g-table">
+        <tr><th></th><th>dovere</th><th>potere</th><th>volere</th></tr>
+        <tr><th>io</th><td>devo</td><td>posso</td><td>voglio</td></tr>
+        <tr><th>tu</th><td>devi</td><td>puoi</td><td>vuoi</td></tr>
+        <tr><th>lui / lei</th><td>deve</td><td>può</td><td>vuole</td></tr>
+        <tr><th>noi</th><td>dobbiamo</td><td>possiamo</td><td>vogliamo</td></tr>
+        <tr><th>voi</th><td>dovete</td><td>potete</td><td>volete</td></tr>
+        <tr><th>loro</th><td>devono</td><td>possono</td><td>vogliono</td></tr>
+      </table>
+      A pronoun may sit in front of the modal or attach to the infinitive:
+      <i>Lo devo fare</i> = <i>Devo farlo.</i><br><br>
+      In the past they take the auxiliary of the verb that follows —
+      <i>ho dovuto lavorare</i> but <i>sono dovuto andare</i>.`,
+    exercises: [
+      { prompt: 'Non ___ venire stasera, ho troppo lavoro. (io, potere)', answer: 'posso' },
+      { prompt: '___ andare a casa adesso. (io, dovere)', answer: 'Devo', alts: ['devo'] },
+      { prompt: 'Che cosa ___ bere? (tu, volere)', answer: 'vuoi' },
+      { prompt: 'I bambini non ___ uscire da soli. (loro, potere)', answer: 'possono' },
+      { prompt: 'Ieri ho ___ (dovere) lavorare fino a tardi.', answer: 'dovuto' },
+      { prompt: 'Scusi, ___ (Lei, volere) anche un caffè?', answer: 'vuole', alts: ['Vuole'] },
+      { prompt: 'Devo ___ (fare + it, m.) subito.', answer: 'farlo', hint: 'attach the pronoun to the infinitive' },
+    ],
+  },
+  {
+    id: 'g18',
+    title: 'sapere and conoscere',
+    note: `English has one "know". Italian splits it.<br><br>
+      <b>sapere</b> — a fact, a piece of information, or <i>how</i> to do something:
+      <i>So dove abita. Non lo so. So nuotare.</i>
+      Followed by an infinitive it is how you say "can" in the sense of a learned skill.<br>
+      Forms: so, sai, sa, sappiamo, sapete, sanno.<br><br>
+      <b>conoscere</b> — being acquainted with a person, a place, a work:
+      <i>Conosco Marco. Non conosco bene Roma.</i> It always takes a direct object,
+      never a clause.<br><br>
+      In the passato prossimo both shift meaning: <b>ho saputo</b> = I found out,
+      <b>ho conosciuto</b> = I met (for the first time).`,
+    exercises: [
+      { prompt: '___ dov’è la stazione? (tu)', answer: 'Sai', alts: ['sai'] },
+      { prompt: 'Non ___ nuotare. (io)', answer: 'so', hint: 'a skill' },
+      { prompt: '___ Marco? È un mio amico. (tu)', answer: 'Conosci', alts: ['conosci'] },
+      { prompt: 'Non ___ bene Roma. (io)', answer: 'conosco', hint: 'a place' },
+      { prompt: 'Ieri ho ___ che Anna parte domani.', answer: 'saputo', hint: 'found out' },
+      { prompt: 'Ho ___ Marco a una festa.', answer: 'conosciuto', hint: 'met for the first time' },
+    ],
+  },
+  {
+    id: 'g19',
+    title: 'Which preposition before an infinitive',
+    note: `Italian verbs are fussy about what comes before a second verb, and the
+      choice is pure vocabulary — learn it with the verb.
+      <ul>
+        <li><b>nothing</b> — dovere, potere, volere, sapere, preferire, desiderare:
+          <i>Voglio partire.</i></li>
+        <li><b>a</b> — cominciare, imparare, provare, riuscire, continuare, and
+          andare/venire when you go somewhere to do something: <i>Comincio a capire.
+          Vado a comprare il pane.</i></li>
+        <li><b>di</b> — finire, cercare, sperare, decidere, smettere, pensare,
+          avere bisogno: <i>Ho finito di lavorare.</i></li>
+      </ul>
+      After a preposition Italian always uses the <b>infinitive</b>, never a gerund:
+      <i>prima di partire, per mangiare, senza dire niente, dopo aver mangiato</i>.`,
+    exercises: [
+      { prompt: 'Comincio ___ capire l’italiano.', answer: 'a' },
+      { prompt: 'Ho finito ___ lavorare alle sei.', answer: 'di' },
+      { prompt: 'Cerco ___ studiare ogni giorno.', answer: 'di' },
+      { prompt: 'Vado ___ comprare il pane.', answer: 'a' },
+      { prompt: 'Prima ___ uscire, chiudi la porta.', answer: 'di' },
+      { prompt: 'Spero ___ vederti presto.', answer: 'di' },
+      { prompt: 'Sono uscito senza ___ (dire) niente.', answer: 'dire', hint: 'infinitive after a preposition' },
+    ],
+  },
+  {
+    id: 'g20',
+    title: 'Saying no: mai, niente, nessuno, più',
+    note: `Italian negates twice and means it once. Keep <b>non</b> in front of the
+      verb and put the negative word after it:
+      <ul>
+        <li><b>non … mai</b> — never: <i>Non ci sono mai stato.</i></li>
+        <li><b>non … niente / nulla</b> — nothing: <i>Non voglio niente.</i></li>
+        <li><b>non … nessuno</b> — nobody: <i>Non c’è nessuno.</i></li>
+        <li><b>non … più</b> — not any more: <i>Non lavoro più qui.</i></li>
+        <li><b>non … ancora</b> — not yet: <i>Non ho ancora finito.</i></li>
+        <li><b>non … né … né</b> — neither … nor: <i>Non bevo né caffè né tè.</i></li>
+      </ul>
+      If the negative word comes <i>before</i> the verb, drop <b>non</b> — one
+      negative is enough on its own: <i>Nessuno è venuto. Niente è cambiato.</i>`,
+    exercises: [
+      { prompt: 'Non ho ___ visto il mare. (never)', answer: 'mai' },
+      { prompt: 'Non c’è ___ in ufficio. (nobody)', answer: 'nessuno' },
+      { prompt: 'Non voglio ___, grazie. (nothing)', answer: 'niente', alts: ['nulla'] },
+      { prompt: 'Non lavoro ___ qui. (not any more)', answer: 'più' },
+      { prompt: 'Non ho ___ finito. (not yet)', answer: 'ancora' },
+      { prompt: 'Non mangio né carne ___ pesce.', answer: 'né' },
+      { prompt: '___ è venuto alla festa. (nobody — and so no "non")', answer: 'Nessuno', alts: ['nessuno'] },
+    ],
+  },
+  {
+    id: 'g21',
+    title: 'qualcuno, qualcosa, qualche, ogni',
+    note: `<b>qualcuno</b> (someone) and <b>qualcosa</b> (something) are pronouns and
+      never change: <i>C’è qualcuno alla porta. Vuoi qualcosa da bere?</i><br><br>
+      <b>qualche</b> means "a few" but takes a <b>singular</b> noun — the one that
+      catches everybody: <i>qualche amico</i> = a few friends.
+      <b>alcuni / alcune</b> means the same thing with a plural noun:
+      <i>alcuni amici</i>.<br><br>
+      <b>ogni</b> (every) is also always singular and never changes:
+      <i>ogni giorno</i>. Its pronoun is <b>ognuno</b>: <i>Ognuno di noi.</i><br><br>
+      <b>tutti</b> = everyone, <b>tutto</b> = everything. "Every day" as a whole
+      stretch is <i>tutti i giorni</i> — plural, with the article.`,
+    exercises: [
+      { prompt: 'C’è ___ alla porta. (someone)', answer: 'qualcuno' },
+      { prompt: 'Vuoi ___ da bere? (something)', answer: 'qualcosa' },
+      { prompt: 'Ho ___ amico a Roma. (a few — note the singular noun)', answer: 'qualche' },
+      { prompt: 'Ho ___ amici a Roma. (a few — plural)', answer: 'alcuni' },
+      { prompt: '___ giorno vado in palestra. (every)', answer: 'Ogni', alts: ['ogni'] },
+      { prompt: '___ di noi ha una chiave. (each one)', answer: 'Ognuno', alts: ['ognuno'] },
+    ],
+  },
+  {
+    id: 'g22',
+    title: 'Adverbs in -mente',
+    note: `Take the <b>feminine singular</b> of the adjective and add <b>-mente</b>:
+      <i>lento → lenta → lentamente</i>, <i>vero → vera → veramente</i>.<br><br>
+      Adjectives already ending in <b>-e</b> just add it: <i>veloce → velocemente</i>.<br>
+      Those ending in <b>-le</b> or <b>-re</b> drop the final e first:
+      <i>facile → facilmente</i>, <i>particolare → particolarmente</i>.<br><br>
+      The most common adverbs of all are irregular and simply have to be learned:
+      <b>bene</b> (well), <b>male</b> (badly), <b>meglio</b> (better), <b>peggio</b> (worse).
+      Don't reach for <i>buonamente</i> — <i>buono</i> describes a thing,
+      <i>bene</i> describes an action.`,
+    exercises: [
+      { prompt: 'Parla molto ___ (lento).', answer: 'lentamente' },
+      { prompt: 'Si può fare ___ (facile).', answer: 'facilmente' },
+      { prompt: 'Guida troppo ___ (veloce).', answer: 'velocemente' },
+      { prompt: '___ (probabile) arrivo tardi.', answer: 'Probabilmente', alts: ['probabilmente'] },
+      { prompt: 'Marco canta ___. (badly)', answer: 'male' },
+      { prompt: 'È un buon cuoco: cucina ___. (well)', answer: 'bene' },
+    ],
+  },
+  {
+    id: 'g23',
+    title: 'si impersonale',
+    note: `<b>si</b> + the third person singular is how Italian says "one", "you",
+      "people" in general — the workhorse where English has no comfortable pronoun:
+      <i>In Italia si mangia bene. Come si dice…? Qui non si fuma.</i><br><br>
+      If what follows is a <b>plural</b> object, the verb goes plural too. It looks
+      strange but it's the rule: <i>Qui si parlano tre lingue.</i>
+      (Literally "three languages are spoken here".)<br><br>
+      It's everywhere on signs — <i>si vende, si affitta, si cercano commessi</i> —
+      and it lets you talk about customs without naming anyone.`,
+    exercises: [
+      { prompt: 'In Italia ___ mangia bene.', answer: 'si' },
+      { prompt: 'Come si ___ "book" in italiano?', answer: 'dice' },
+      { prompt: 'Qui si ___ (parlare) inglese.', answer: 'parla' },
+      { prompt: 'In questo negozio si ___ (vendere) libri usati.', answer: 'vendono', hint: 'a plural object pulls the verb into the plural' },
+      { prompt: 'Non si ___ (potere) fumare qui.', answer: 'può' },
+      { prompt: 'A che ora si ___ (cenare) in Italia?', answer: 'cena' },
+    ],
+  },
+  {
+    id: 'g24',
+    title: 'The futuro, and what it is really for',
+    note: `Endings are the same for all three conjugations. The stem is the
+      infinitive minus the final <b>-e</b>, with <b>-are</b> becoming <b>-er-</b>:
+      parlare → parler-, credere → creder-, dormire → dormir-.<br>
+      Then: <b>-ò, -ai, -à, -emo, -ete, -anno</b>.<br><br>
+      Irregular stems (the same ones as the condizionale): sarò, avrò, andrò, farò,
+      starò, potrò, vorrò, dovrò, saprò, vedrò, verrò, berrò, rimarrò.<br><br>
+      <b>Usage.</b> For a plan that is already settled, Italians normally use the
+      <i>present</i>: <i>Domani vado a Roma.</i> The futuro is for genuine prediction
+      and promises — and, very commonly, for <b>guessing about right now</b>:
+      <i>Che ora è? — Saranno le tre.</i>`,
+    exercises: [
+      { prompt: 'L’anno prossimo ___ (io, andare) in Italia.', answer: 'andrò' },
+      { prompt: 'Domani ___ (noi, partire) presto.', answer: 'partiremo' },
+      { prompt: '___ (tu, venire) alla festa?', answer: 'Verrai', alts: ['verrai'] },
+      { prompt: 'Se piove, ___ (io, rimanere) a casa.', answer: 'rimarrò' },
+      { prompt: 'Che ora è? — Non lo so, ___ (essere) le tre.', answer: 'saranno', hint: 'guessing about now, not predicting' },
+      { prompt: 'Marco non risponde: ___ (dormire).', answer: 'dormirà', hint: 'he must be asleep' },
+    ],
+  },
+  {
+    id: 'g25',
+    title: 'The condizionale',
+    note: `Same stem as the futuro, different endings:
+      <b>-ei, -esti, -ebbe, -emmo, -este, -ebbero</b>.
+      So parlerò → parlerei, sarò → sarei, avrò → avrei, vorrò → vorrei.<br><br>
+      What it is actually for, most of the time, is <b>politeness</b>.
+      <i>Voglio un caffè</i> is a demand; <i>vorrei un caffè</i> is a request.
+      <i>Puoi aiutarmi?</i> is fine among friends; <i>potresti aiutarmi?</i> is softer.<br><br>
+      It also gives advice (<i>dovresti riposare</i>), reports something unconfirmed
+      (<i>Sarebbe il migliore ristorante della città</i>), and supplies the "would"
+      half of a hypothesis (<i>Con più tempo, studierei di più</i>).`,
+    exercises: [
+      { prompt: '___ (io, volere) un caffè, per favore.', answer: 'Vorrei', alts: ['vorrei'] },
+      { prompt: '___ (tu, potere) aiutarmi?', answer: 'Potresti', alts: ['potresti'] },
+      { prompt: '___ (tu, dovere) andare dal medico.', answer: 'Dovresti', alts: ['dovresti'] },
+      { prompt: 'Mi ___ (Lei, dare) il conto, per favore?', answer: 'darebbe' },
+      { prompt: 'Con più tempo ___ (noi, studiare) di più.', answer: 'studieremmo' },
+      { prompt: '___ (loro, venire) volentieri, ma sono in ritardo.', answer: 'Verrebbero', alts: ['verrebbero'] },
+    ],
+  },
+  {
+    id: 'g26',
+    title: 'Congiuntivo presente',
+    note: `Used in the second half of a sentence, after <b>che</b>, when the first
+      half expresses an opinion, a wish, a doubt or a feeling rather than a fact.<br><br>
+      <b>-are</b>: -i, -i, -i, -iamo, -iate, -ino · <b>-ere/-ire</b>: -a, -a, -a, -iamo, -iate, -ano.
+      All three singular persons are identical, which is why <i>che tu sia</i> often
+      keeps its pronoun.<br>
+      Irregulars: sia, abbia, faccia, vada, stia, possa, voglia, debba, sappia,
+      venga, dia, dica.<br><br>
+      Triggers: penso / credo / mi sembra che · voglio / spero / preferisco che ·
+      è importante / è possibile / è meglio che · benché, sebbene, prima che,
+      a meno che.<br><br>
+      <b>Same subject, no che.</b> Use <i>di</i> + infinitive instead:
+      <i>Penso di avere ragione</i>, not <i>penso che io abbia</i>.`,
+    exercises: [
+      { prompt: 'Penso che Marco ___ (essere) a casa.', answer: 'sia' },
+      { prompt: 'Voglio che tu ___ (venire) con me.', answer: 'venga' },
+      { prompt: 'Spero che ___ (loro, arrivare) presto.', answer: 'arrivino' },
+      { prompt: 'Credo che Anna ___ (avere) ragione.', answer: 'abbia' },
+      { prompt: 'È importante che voi ___ (capire) bene.', answer: 'capiate' },
+      { prompt: 'Benché ___ (fare) freddo, esco lo stesso.', answer: 'faccia' },
+      { prompt: 'Penso ___ avere ragione. (same subject — so no "che")', answer: 'di' },
+    ],
+  },
+  {
+    id: 'g27',
+    title: 'If: se and the three kinds of hypothesis',
+    note: `<b>1. A real possibility</b> — plain indicativo, exactly like English:
+      <i>Se piove, resto a casa. Se hai tempo, vieni.</i><br><br>
+      <b>2. Unreal, now</b> — <b>se</b> + congiuntivo imperfetto, then condizionale:
+      <i>Se avessi tempo, verrei.</i> Imperfetto congiuntivo endings:
+      -assi / -essi / -issi, and the ones you need most are irregular by heart:
+      <b>fossi</b> (essere), <b>avessi</b> (avere), <b>facessi</b>, <b>potessi</b>,
+      <b>venissi</b>, <b>sapessi</b>.<br><br>
+      <b>3. Unreal, in the past</b> — congiuntivo trapassato + condizionale passato:
+      <i>Se avessi avuto tempo, sarei venuto.</i><br><br>
+      The one hard rule: <b>never a condizionale straight after se</b>.
+      "Se avrei" is the mistake Italians themselves are taught not to make.`,
+    exercises: [
+      { prompt: 'Se ___ (io, avere) più tempo, viaggerei di più.', answer: 'avessi' },
+      { prompt: 'Se ___ (tu, essere) in me, che cosa faresti?', answer: 'fossi' },
+      { prompt: 'Se vincessi la lotteria, ___ (io, comprare) una casa.', answer: 'comprerei' },
+      { prompt: 'Se ___ (piovere), resto a casa. (a real possibility)', answer: 'piove' },
+      { prompt: 'Se ___ (noi, potere), verremmo volentieri.', answer: 'potessimo' },
+      { prompt: 'Se ___ (loro, venire), sarebbe più divertente.', answer: 'venissero' },
+    ],
+  },
+  {
+    id: 'g28',
+    title: 'che and cui',
+    note: `<b>che</b> joins two statements about the same thing, whether it is the
+      subject or the object of the second one, and whether it is a person or a thing:
+      <i>Il ragazzo che parla… · Il libro che ho letto…</i><br><br>
+      Unlike English, it can <b>never be left out</b>. "The book I read" has to be
+      <i>il libro <b>che</b> ho letto</i>.<br><br>
+      After a preposition, che becomes <b>cui</b>: <i>la città in cui abito,
+      l’amico a cui ho scritto, la ragazza con cui esco</i>.
+      With the article in front, <i>il cui</i> means "whose".<br><br>
+      "What" in the middle of a sentence is <b>quello che</b> (or <i>ciò che</i>):
+      <i>Non capisco quello che dici.</i>`,
+    exercises: [
+      { prompt: 'Il ragazzo ___ parla è mio fratello.', answer: 'che' },
+      { prompt: 'Il libro ___ ho letto è bellissimo.', answer: 'che' },
+      { prompt: 'La città in ___ abito è piccola.', answer: 'cui' },
+      { prompt: 'L’amico a ___ ho scritto vive a Roma.', answer: 'cui' },
+      { prompt: 'La ragazza con ___ esco è italiana.', answer: 'cui' },
+      { prompt: 'Non capisco ___ che dici. ("what" = the thing that)', answer: 'quello', alts: ['ciò'] },
+    ],
+  },
 ];
 
 export function allGrammarItems() {
