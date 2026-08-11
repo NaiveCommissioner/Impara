@@ -9,7 +9,7 @@
 import { UNITS } from '../data/vocab.js';
 import { VERBS, TENSES } from '../data/verbs.js';
 import { FUNCTION_WORDS, VERB_PAST } from '../data/lexicon.js';
-import { conjugate, participio } from './conjugator.js';
+import { conjugate, participio, gerundio } from './conjugator.js';
 
 const LEADING_ARTICLE = /^(?:il|lo|la|i|gli|le|un|uno|una|l['’]|un['’])\s*/i;
 const SUBJECTS = ['I', 'you', 'he/she', 'we', 'you (pl.)', 'they'];
@@ -39,6 +39,26 @@ const IRREGULAR_PRESENT = {
   do: ['do', 'do', 'does', 'do', 'do', 'do'],
 };
 
+// English doubles a final consonant in some verbs before -ing, and no rule
+// short of syllable stress separates "putting" from "opening". The handful
+// that matter here are listed rather than derived.
+const IRREGULAR_GERUND = {
+  put: 'putting', get: 'getting', run: 'running', sit: 'sitting',
+  stop: 'stopping', cut: 'cutting', begin: 'beginning', prefer: 'preferring',
+};
+
+/** "speak" → "speaking", "have" → "having", "get up" → "getting up". */
+function englishGerund(phrase) {
+  const [first, ...rest] = phrase.split(' ');
+  const irregular = IRREGULAR_GERUND[first];
+  // Drop a silent final -e (have → having) but not from "be" or "see".
+  const head = irregular
+    || (first.length > 2 && /[^e]e$/.test(first)
+      ? `${first.slice(0, -1)}ing`
+      : `${first}ing`);
+  return [head, ...rest].join(' ');
+}
+
 function thirdPersonWord(word) {
   if (/(?:s|x|z|ch|sh|o)$/.test(word)) return `${word}es`;
   if (/[^aeiou]y$/.test(word)) return `${word.slice(0, -1)}ies`;
@@ -61,6 +81,9 @@ export function englishForm(verb, tenseId, person) {
   const base = bareVerb(verb.en);
   const subject = SUBJECTS[person];
   if (tenseId === 'presente') return `${subject} ${presentPhrase(base, person)}`;
+  if (tenseId === 'progressivo') {
+    return `${subject} ${IRREGULAR_PRESENT.be[person]} ${englishGerund(base)}`;
+  }
   if (tenseId === 'imperfetto') return `${subject} used to ${base}`;
   if (tenseId === 'futuro') return `${subject} will ${base}`;
   if (tenseId === 'condizionale') return `${subject} would ${base}`;
@@ -87,7 +110,10 @@ function buildIndex() {
   for (const v of VERBS) {
     add(map, v.inf, v.en);   // the infinitive itself turns up in sentences
     for (const t of TENSES) {
-      if (t.id === 'passato') continue;
+      // Both are compounds whose head word is indexed on its own below: the
+      // participle once, the gerund once. Indexing them per-person would
+      // freeze "parlando" as "I am speaking".
+      if (t.id === 'passato' || t.id === 'progressivo') continue;
       conjugate(v, t.id).forEach((cell, person) => {
         const words = cell.form.split(' ');
         const head = words[words.length - 1];
@@ -96,6 +122,7 @@ function buildIndex() {
     }
     const past = VERB_PAST[v.inf];
     add(map, participio(v), `${Array.isArray(past) ? past[0] : past || bareVerb(v.en)} (past participle)`);
+    add(map, gerundio(v), englishGerund(bareVerb(v.en)));
   }
 
   // 3. Function words last, so a real vocabulary entry always wins.

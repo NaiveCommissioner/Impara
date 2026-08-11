@@ -11,7 +11,9 @@
 export const VERB_FRAMES = {
   essere: { it: 'a casa', en: 'at home' },
   avere: { it: 'una macchina', en: 'a car' },
-  fare: { it: 'colazione', en: 'breakfast' },
+  // Not "colazione": fare glosses as "do", and "I do breakfast" reads wrong in
+  // every tense. Homework is idiomatic with fare in both languages.
+  fare: { it: 'i compiti', en: 'the homework' },
   andare: { it: 'a Roma', en: 'to Rome' },
   stare: { it: 'bene', en: 'well' },
 
@@ -74,6 +76,7 @@ export const VERB_FRAMES = {
 // shows what the tense is *for*.
 export const TENSE_ADVERBS = {
   presente: { it: '', en: '' },
+  progressivo: { it: 'adesso', en: 'right now' },
   passato: { it: 'ieri', en: 'yesterday' },
   imperfetto: { it: 'spesso', en: 'often' },
   futuro: { it: 'domani', en: 'tomorrow' },

@@ -81,7 +81,7 @@ lapses shortening the interval and lowering the ease.
 | | |
 |---|---|
 | **590 words** | 14 units, from greetings through food, directions, work and small talk. Each word becomes three cards: recognise it, produce it, hear it. |
-| **50 verbs × 5 tenses** | presente, passato prossimo, imperfetto, futuro semplice, condizionale — one card per person, so 6 per verb-tense. Verbs are tiered (11 essential, 22 common, 17 broadening) so the load-bearing ones come first. |
+| **50 verbs × 6 tenses** | presente, presente progressivo, passato prossimo, imperfetto, futuro semplice, condizionale — one card per person, so 6 per verb-tense. Verbs are tiered (11 essential, 22 common, 17 broadening) so the load-bearing ones come first. |
 | **17 lessons** | Long-form explanations, one a day: gender, articles, pronunciation, plurals, agreement, dropping the subject, essere/avere, tu vs Lei, prepositions, the past tenses, reflexives, object pronouns, piacere, ci/ne, the imperative, the progressive. ~71 minutes of reading. |
 | **16 grammar drills** | 101 exercises: subject pronouns, articles, plurals, agreement, articulated prepositions, `c'è`/`ci sono`, possessives, `piacere`, auxiliary choice, reflexives, direct and indirect object pronouns, and more. |
 | **8 conversations** | 64 lines — the café, meeting someone, directions, the restaurant, the hotel, the shop, the station, making plans. Each line is rebuilt from word tiles, in order, with the previous line as context. |
@@ -187,7 +187,7 @@ each script in full, with audio and glosses on every line.
 Every conjugation teaching card shows the form in a sentence — *io sono →*
 **"Io sono a casa." / "I am at home."** — with audio and a word-by-word gloss.
 
-Writing those by hand would mean 1,500 sentences (50 verbs × 5 tenses × 6
+Writing those by hand would mean 1,752 sentences (50 verbs × 6 tenses × 6
 persons). Instead `data/examples.js` gives each verb a **complement frame**
 (`parlare` → *italiano*) and each tense a time adverb (passato → *ieri*), and
 `js/example.js` assembles the sentence around whatever form is being taught:

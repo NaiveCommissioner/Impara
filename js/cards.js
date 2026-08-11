@@ -3,7 +3,7 @@
 // long as items aren't reordered within a unit.
 
 import { UNITS } from '../data/vocab.js';
-import { VERBS, TENSES, PERSONS } from '../data/verbs.js';
+import { VERBS, TENSES, PERSONS, hasTense } from '../data/verbs.js';
 import { LESSONS } from '../data/grammar.js';
 import { DIALOGUES, dialogueVocabulary } from '../data/dialogues.js';
 import { conjugate } from './conjugator.js';
@@ -127,6 +127,7 @@ function build() {
   const byTier = VERBS.map((v, i) => ({ v, i })).sort((a, b) => a.v.tier - b.v.tier || a.i - b.i);
   TENSES.forEach((tense, ti) => {
     byTier.forEach(({ v }, vi) => {
+      if (!hasTense(v, tense.id)) return;
       const forms = conjugate(v, tense.id);
       PERSONS.forEach((p) => {
         cards.push({

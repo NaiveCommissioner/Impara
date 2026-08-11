@@ -2,7 +2,7 @@
 // Read-only — nothing here touches the schedule.
 
 import { UNITS } from '../../data/vocab.js';
-import { VERBS, TENSES, PERSONS } from '../../data/verbs.js';
+import { VERBS, TENSES, PERSONS, hasTense } from '../../data/verbs.js';
 import { LESSONS } from '../../data/grammar.js';
 import { DIALOGUES } from '../../data/dialogues.js';
 import { glossSentence } from '../gloss.js';
@@ -139,7 +139,7 @@ function verbsHtml() {
 
 function verbTables(v) {
   return `<div class="verb-tables">
-    ${TENSES.map((t) => {
+    ${TENSES.filter((t) => hasTense(v, t.id)).map((t) => {
       const forms = paradigm(v, t.id);
       return `<table class="paradigm">
         <caption>${escapeHtml(t.label)}</caption>

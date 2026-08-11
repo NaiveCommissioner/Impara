@@ -79,6 +79,30 @@ export function participio(v) {
 
 const ESSERE_PRESENT = ['sono', 'sei', 'è', 'siamo', 'siete', 'sono'];
 const AVERE_PRESENT = ['ho', 'hai', 'ha', 'abbiamo', 'avete', 'hanno'];
+const STARE_PRESENT = ['sto', 'stai', 'sta', 'stiamo', 'state', 'stanno'];
+
+/**
+ * The gerund: parlando, credendo, dormendo.
+ *
+ * -are takes -ando, everything else -endo — note that -ire verbs go to -endo,
+ * not -indo, which is where the obvious "infinitive minus -re" shortcut breaks.
+ * The -isc- infix never appears here (capire → capendo).
+ *
+ * The three irregulars reuse `impStem`, the same stem that makes the imperfetto
+ * odd: fare → facendo, dire → dicendo, bere → bevendo. Without it `bere` would
+ * yield "bendo".
+ */
+export function gerundio(v) {
+  if (v.impStem) return `${v.impStem}ndo`;
+  const stem = baseInfinitive(v).slice(0, -3);
+  return stem + (v.type === 'are' ? 'ando' : 'endo');
+}
+
+/** stare + gerund: "sto parlando" — an action in progress right now. */
+function progressivo(v) {
+  const g = gerundio(v);
+  return STARE_PRESENT.map((aux) => ({ form: `${aux} ${g}`, alts: [] }));
+}
 
 // With essere the participle agrees with the subject. Masculine is canonical;
 // the feminine is offered as an accepted alternative.
@@ -116,6 +140,8 @@ export function conjugate(v, tense) {
   let cells;
   if (tense === 'passato') {
     cells = passato(v);
+  } else if (tense === 'progressivo') {
+    cells = progressivo(v);
   } else {
     const builder = SIMPLE_TENSES[tense];
     if (!builder) throw new Error(`unknown tense: ${tense}`);
