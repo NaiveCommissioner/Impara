@@ -97,6 +97,7 @@ export const VERBS = [
 
 export const TENSES = [
   { id: 'presente', label: 'Presente', en: 'present', hint: 'io parlo — I speak / I am speaking' },
+  { id: 'progressivo', label: 'Presente progressivo', en: 'present continuous', hint: 'io sto parlando — I am speaking (right now)' },
   { id: 'passato', label: 'Passato prossimo', en: 'perfect past', hint: 'io ho parlato — I spoke / I have spoken' },
   { id: 'imperfetto', label: 'Imperfetto', en: 'imperfect', hint: 'io parlavo — I used to speak / I was speaking' },
   { id: 'futuro', label: 'Futuro semplice', en: 'future', hint: 'io parlerò — I will speak' },
@@ -114,4 +115,22 @@ export const PERSONS = [
 
 export function findVerb(inf) {
   return VERBS.find((v) => v.inf === inf);
+}
+
+// Verbs that don't take stare + gerundio. Modals and statives resist the
+// progressive in Italian just as they do in English — "sto potendo" is no more
+// sayable than "I am being able to", and "sto preferendo" no better than
+// "I am preferring". Drilling them would teach Italian nobody speaks.
+//
+// Note this constrains only the periphrasis: the gerunds themselves (essendo,
+// avendo) are real words used in other constructions, so the glosser still
+// knows them.
+const NO_PROGRESSIVE = new Set([
+  'essere', 'avere', 'stare', 'potere', 'volere', 'dovere', 'sapere', 'preferire',
+]);
+
+/** Whether a verb is drilled in a given tense. */
+export function hasTense(verb, tenseId) {
+  if (tenseId === 'progressivo') return !NO_PROGRESSIVE.has(verb.inf);
+  return true;
 }

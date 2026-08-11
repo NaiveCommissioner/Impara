@@ -9,6 +9,7 @@
 // show the form actually doing something.
 
 import { VERB_FRAMES, TENSE_ADVERBS, EXAMPLE_SUBJECTS } from '../data/examples.js';
+import { hasTense } from '../data/verbs.js';
 import { conjugate } from './conjugator.js';
 import { englishForm } from './gloss.js';
 
@@ -25,6 +26,7 @@ function join(parts) {
  */
 export function exampleFor(verb, tenseId, person) {
   if (!verb) return null;
+  if (!hasTense(verb, tenseId)) return null;
   const frame = VERB_FRAMES[verb.inf];
   if (!frame) return null;
 

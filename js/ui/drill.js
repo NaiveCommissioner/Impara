@@ -1,7 +1,7 @@
 // Free practice. Nothing here is scheduled or written to your progress —
 // it's the place to hammer one verb or one unit as often as you like.
 
-import { VERBS, TENSES, PERSONS } from '../../data/verbs.js';
+import { VERBS, TENSES, PERSONS, hasTense } from '../../data/verbs.js';
 import { UNITS } from '../../data/vocab.js';
 import { conjugate } from '../conjugator.js';
 import { checkAnswer, shortGloss } from '../text.js';
@@ -81,7 +81,12 @@ function wire() {
 
 function conjHtml() {
   const verb = VERBS.find((v) => v.inf === verbInf) || VERBS[0];
-  const tense = TENSES.find((t) => t.id === tenseId) || TENSES[0];
+  // Not every verb takes every tense — a modal has no progressive. Offer only
+  // what this verb actually does, and fall back if the current pick isn't one
+  // of them (you can switch to essere while "progressivo" is selected).
+  const offered = TENSES.filter((t) => hasTense(verb, t.id));
+  const tense = offered.find((t) => t.id === tenseId) || offered[0];
+  tenseId = tense.id;
   return `
     <div class="drill-controls">
       <label>Verb
@@ -92,7 +97,7 @@ function conjHtml() {
       </label>
       <label>Tense
         <select id="tense-pick">
-          ${TENSES.map((t) => `<option value="${t.id}" ${t.id === tense.id ? 'selected' : ''}>${escapeHtml(t.label)}</option>`).join('')}
+          ${offered.map((t) => `<option value="${t.id}" ${t.id === tense.id ? 'selected' : ''}>${escapeHtml(t.label)}</option>`).join('')}
         </select>
       </label>
       <button class="button" data-act="random">Random verb</button>
